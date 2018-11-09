@@ -1,5 +1,7 @@
 <?php
 use Maatwebsite\Excel\Excel;
+use App\Jobs\SendEmailJob;
+// use Carbon;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,3 +20,16 @@ Route::get('/', function () {
 Route::get('upload', 'ExcelController@upload')->name('upload_file');
 
 Route::post('ImportClients', 'ExcelController@ImportClients');
+
+Route::get('sendMail', function(){
+
+	// SendEmailJob::dispatch();
+	$job = (new SendEmailJob())
+                ->delay(Carbon\Carbon::now()->addSeconds(10));
+
+    dispatch($job);
+
+    
+	echo "string";
+
+})->name('sendMail');

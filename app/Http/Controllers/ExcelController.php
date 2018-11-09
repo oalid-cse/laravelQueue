@@ -7,10 +7,13 @@ use Exporter;
 use Importer;
 use Illuminate\Support\Facades\Input;
 use App\Model\Contact;
-use Queue;
+use App\Jobs\insertContactJob;
+use Carbon;
+
 
 class ExcelController extends Controller
 {
+	
     //
     public function upload(){
     	return view('upload');
@@ -29,13 +32,18 @@ class ExcelController extends Controller
 				'number' => $value[0],
 			]);
 		}*/
-		Queue::looping(function () {
+		/*Queue::looping(function () {
 		    foreach ($collection as $key => $value) {
 				Contact::create([
 					'number' => $value[0],
 				]);
 			}
-		});
+		});*/
+		$job = (new insertContactJob($collection))
+	                ->delay(Carbon\Carbon::now()->addSeconds(5));
+
+	    dispatch($job);
+
 		echo "success";
 
 

@@ -84,6 +84,7 @@
 
                 <div class="links">
                     <a href="{{ route('upload_file') }}">Upload file</a>
+                    <a href="{{ route('sendMail') }}">sendMail</a>
                 </div>
             </div>
         </div>
